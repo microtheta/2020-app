@@ -1,6 +1,6 @@
 import useSWR from 'swr'
 import Link from 'next/link'
-import { useUser } from '../utils/auth/useUser'
+import { useUser } from 'utils/auth/useUser'
 
 const fetcher = (url, token) =>
   fetch(url, {
@@ -49,13 +49,16 @@ const Index = () => {
         <Link href={'/example'}>
           <a>Another example page</a>
         </Link>
+        <Link href={'/gqlExample'}>
+          <a>Another example page</a>
+        </Link>
       </div>
       {error && <div>Failed to fetch food!</div>}
       {data && !error ? (
         <div>Your favorite food is {data.food}.</div>
       ) : (
-        <div>Loading...</div>
-      )}
+          <div>Loading...</div>
+        )}
     </div>
   )
 }
