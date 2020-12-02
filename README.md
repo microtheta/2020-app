@@ -6,3 +6,4 @@
  - [x] Absolute import
  - [x] Public vs Protected routes
  - [x] Graphql Apollo server and client
+ - [x] Typescript
