@@ -15,7 +15,7 @@ const getFood = async (req: NextApiRequest, res: NextApiResponse<Data | String>)
       food: favoriteFoods[Math.floor(Math.random() * favoriteFoods.length)],
     })
   } catch (error) {
-    return res.status(401).send('You are unauthorised')
+    return res.status(401).send('You are unauthorised' + error.message)
   }
 }
 

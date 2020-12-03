@@ -2,6 +2,9 @@ import useSWR from 'swr'
 import Link from 'next/link'
 import { useUser } from 'utils/auth/useUser'
 
+import Loader from 'components/Loader'
+
+
 const fetcher = (url, token) =>
   fetch(url, {
     method: 'GET',
@@ -10,11 +13,14 @@ const fetcher = (url, token) =>
   }).then((res) => res.json())
 
 const Index = () => {
-  const { user, logout } = useUser()
+  const { isLoading, user, logout } = useUser()
   const { data, error } = useSWR(
     user ? ['/api/getFood', user.token] : null,
     fetcher
   )
+  if (isLoading) {
+    return (<Loader />)
+  }
   if (!user) {
     return (
       <>

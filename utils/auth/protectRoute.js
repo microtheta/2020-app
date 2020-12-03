@@ -1,9 +1,19 @@
+import { useRouter } from 'next/router'
 import { useUser } from 'utils/auth/useUser'
 
+import Loader from 'components/Loader'
+
 export const ProtectRoute = (Component) => (props) => {
-    const { user } = useUser() //this hook will redirect to home if user not found.
+    //this will redirect to home if user not found.
+    const { user, isLoading } = useUser()
+    const router = useRouter()
+
+    if (isLoading) {
+        return <Loader />;
+    }
     if (!user) {
-        return <div>Loading...</div>;
+        router.push('/')
+        return null
     }
     return <Component {...props} />;
 };

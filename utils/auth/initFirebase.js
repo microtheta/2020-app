@@ -8,8 +8,18 @@ const config = {
   projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
 }
 
+
+const renewToken = () => {
+  console.log('Renew Now!')
+  if (firebase.auth().currentUser) {
+    firebase.auth().currentUser.getIdToken(/* forceRefresh */ true)
+  }
+}
+
+
 export default function initFirebase() {
   if (!firebase.apps.length) {
     firebase.initializeApp(config)
+    setInterval(renewToken, 1000 * 60 * 59)
   }
 }

@@ -3,10 +3,11 @@ import { useRouter } from 'next/router'
 import firebase from 'firebase/app'
 import 'firebase/auth'
 import initFirebase from 'utils/auth/initFirebase'
+
 import {
   removeUserCookie,
   setUserCookie,
-  getUserFromCookie,
+  //getUserFromCookie,
 } from './userCookies'
 import { mapUserData } from './mapUserData'
 
@@ -15,6 +16,7 @@ import type { UserType } from './mapUserData'
 initFirebase()
 
 const useUser = () => {
+  const [isLoading, setIsLoading] = useState(true)
   const [user, setUser] = useState<UserType | undefined>()
   const router = useRouter()
 
@@ -36,6 +38,7 @@ const useUser = () => {
     // makes sure the react state and the cookie are
     // both kept up to date
     const cancelAuthListener = firebase.auth().onIdTokenChanged((user) => {
+      setIsLoading(false)
       if (user) {
         const userData = mapUserData(user)
         setUserCookie(userData)
@@ -46,12 +49,12 @@ const useUser = () => {
       }
     })
 
+    /*
+    // Can't ensure that this is still a valid token user! 
     const userFromCookie = getUserFromCookie()
-    if (!userFromCookie) {
-      router.push('/')
-      return
-    }
-    setUser(userFromCookie)
+    if (userFromCookie) {
+      setUser(userFromCookie)
+    } */
 
     return () => {
       cancelAuthListener()
@@ -59,7 +62,7 @@ const useUser = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  return { user, logout }
+  return { user, logout, isLoading }
 }
 
 export { useUser }
