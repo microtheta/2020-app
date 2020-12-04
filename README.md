@@ -8,3 +8,4 @@
  - [x] Graphql Apollo server and client
  - [x] Typescript
  - [x] Prisma
+ - [x] Notification using [react-tostify](https://fkhadra.github.io/react-toastify/the-gist-of-react-toastify)

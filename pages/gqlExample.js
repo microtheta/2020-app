@@ -3,6 +3,8 @@ import Link from 'next/link'
 import { useQuery } from '@apollo/client'
 import { initializeApollo } from '../apollo/client'
 
+import { notify } from 'components/notify/notify'
+
 const ViewerQuery = gql`
   query ViewerQuery {
     viewer {
@@ -22,6 +24,7 @@ const Index = () => {
 
   const { loading, error, data }= useQuery(ViewerQuery)
   const viewer = data?.viewer;
+  notify('Hello From GraphQL page!')
   if(loading) {
     return <div>Loading...</div>
   }
