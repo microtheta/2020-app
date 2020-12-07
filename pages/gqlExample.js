@@ -4,6 +4,7 @@ import { useQuery } from '@apollo/client'
 import { initializeApollo } from '../apollo/client'
 
 import { notify } from 'components/notify/notify'
+import { useEffect } from 'react'
 
 const ViewerQuery = gql`
   query ViewerQuery {
@@ -24,7 +25,10 @@ const Index = () => {
 
   const { loading, error, data }= useQuery(ViewerQuery)
   const viewer = data?.viewer;
-  notify('Hello From GraphQL page!')
+  useEffect(() => {
+    notify('Hello From GraphQL page!')
+  },[])
+  
   if(loading) {
     return <div>Loading...</div>
   }

@@ -8,7 +8,7 @@
     "type-check": "tsc"
   },
   "dependencies": {
-    "@apollo/client": "3.3.3",
+    "@apollo/client": "3.3.4",
     "@prisma/client": "2.12.1",
     "apollo-server-micro": "2.19.0",
     "firebase": "8.1.2",
