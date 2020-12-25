@@ -4,11 +4,6 @@ import firebase from 'firebase/app'
 import 'firebase/auth'
 import initFirebase from 'utils/auth/initFirebase'
 
-import {
-  removeUserCookie,
-  setUserCookie,
-  //getUserFromCookie,
-} from './userCookies'
 import { mapUserData } from './mapUserData'
 
 import type { UserType } from './mapUserData'
@@ -41,20 +36,11 @@ const useUser = () => {
       setIsLoading(false)
       if (user) {
         const userData = mapUserData(user)
-        setUserCookie(userData)
         setUser(userData)
       } else {
-        removeUserCookie()
         setUser(undefined)
       }
     })
-
-    /*
-    // Can't ensure that this is still a valid token user! 
-    const userFromCookie = getUserFromCookie()
-    if (userFromCookie) {
-      setUser(userFromCookie)
-    } */
 
     return () => {
       cancelAuthListener()
