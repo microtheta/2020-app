@@ -9,3 +9,4 @@
  - [x] Typescript
  - [x] Prisma
  - [x] Notification using [react-tostify](https://fkhadra.github.io/react-toastify/the-gist-of-react-toastify)
+ - [x] Databse migration using [db-migrate](https://db-migrate.readthedocs.io/en/latest/) - `yarn db-migrate [create migrationName | up | down ]`

@@ -5,12 +5,15 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "type-check": "tsc"
+    "type-check": "tsc",
+    "db-migrate": "db-migrate"
   },
   "dependencies": {
     "@apollo/client": "3.3.6",
     "@prisma/client": "2.13.1",
     "apollo-server-micro": "2.19.1",
+    "db-migrate": "^1.0.0-beta.13",
+    "db-migrate-pg": "^1.2.2",
     "firebase": "8.2.1",
     "firebase-admin": "9.4.2",
     "graphql": "15.4.0",
