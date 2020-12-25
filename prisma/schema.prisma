@@ -8,6 +8,7 @@ datasource db {
 }
 
 model users {
-  id  Int    @id
-  fid String
+  id   Int    @id
+  fid  String
+  name String
 }

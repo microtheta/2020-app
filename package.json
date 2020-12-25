@@ -2,7 +2,7 @@
   "name": "with-firebase-authentication",
   "version": "1.0.0",
   "scripts": {
-    "dev": "next dev",
+    "dev": "yarn db-migrate up && yarn prisma generate && next dev",
     "build": "next build",
     "start": "next start",
     "type-check": "tsc",
