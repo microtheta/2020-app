@@ -1,6 +1,6 @@
 import * as admin from 'firebase-admin'
 
-export const verifyIdToken = (token) => {
+export const verifyIdToken = async (token, getUserRecord) => {
   const firebasePrivateKey = process.env.FIREBASE_PRIVATE_KEY
 
   if (!admin.apps.length) {
@@ -18,6 +18,24 @@ export const verifyIdToken = (token) => {
   return admin
     .auth()
     .verifyIdToken(token)
+    .then((decodedToken) => {
+      const uid = decodedToken.uid;
+      if (getUserRecord) {
+        return admin
+          .auth()
+          .getUser(uid)
+          .then((userRecord) => {
+            // See the UserRecord reference doc for the contents of userRecord.
+            // console.log(`Successfully fetched user data: ${JSON.stringify(userRecord.toJSON())}`);
+            return userRecord
+          })
+          .catch((error) => {
+            console.log('Error fetching user data:', error);
+          });
+      } else {
+        return uid
+      }
+    })
     .catch((error) => {
       throw error
     })

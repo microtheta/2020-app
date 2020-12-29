@@ -6,7 +6,8 @@
     "build": "next build",
     "start": "next start",
     "type-check": "tsc",
-    "db-migrate": "db-migrate"
+    "db-migrate": "db-migrate",
+    "introspect": "prisma introspect"
   },
   "dependencies": {
     "@apollo/client": "3.3.6",

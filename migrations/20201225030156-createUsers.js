@@ -16,10 +16,19 @@ exports.setup = function (options, seedLink) {
 
 exports.up = function (db) {
   return db.createTable('users', {
-    id: { type: 'int', primaryKey: true },
+    id: {
+      type: 'int',
+      unsigned: true,
+      notNull: true,
+      primaryKey: true,
+      autoIncrement: true,
+    },
     fid: 'string',
     name: 'string'
+  }).then(() => {
+    db.addIndex('users', 'UsersFid', 'fid', true)
   });
+
 };
 
 exports.down = function (db) {
