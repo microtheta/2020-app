@@ -39,6 +39,7 @@ const useUser = () => {
         setUser(userData)
       } else {
         setUser(undefined)
+        firebase.auth().signInAnonymously()
       }
     })
 

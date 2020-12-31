@@ -1,6 +1,10 @@
 import Link from 'next/link'
+import { useEffect } from 'react'
+import useFetch from 'utils/auth/useFetch'
 
 const Example = (props) => {
+  const fetcher = useFetch('/api/getFood')
+  fetcher()
   return (
     <div>
       <p>

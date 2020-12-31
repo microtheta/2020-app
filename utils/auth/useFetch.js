@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
 import { useUser } from 'utils/auth/useUser'
+import firebase from 'firebase/app'
 
 export const useSyncUser = () => {
 
@@ -22,3 +23,17 @@ export const useSyncUser = () => {
   }, [user])
   return userData
 }
+
+
+const useFetch = (url, opts = { method: 'GET', headers: {} }) => {
+  return async () => {
+    const user = firebase.auth().currentUser;
+    const token = await user.getIdToken()
+    return fetch(url, {
+      method: opts.method,
+      headers: new Headers({ 'Content-Type': 'application/json', token, ...opts.headers })
+    }).then((res) => res.json())
+  }
+}
+
+export default useFetch
