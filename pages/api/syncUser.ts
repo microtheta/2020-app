@@ -32,7 +32,7 @@ const sync = async (req: NextApiRequest, res: NextApiResponse<any>) => {
       user,
     })
   } catch (error) {
-    return res.status(401).send('You are unauthorised' + error.message)
+    return res.status(401).json({ message: error.message })
   }
 }
 

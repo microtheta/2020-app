@@ -1,38 +1,54 @@
 import { useEffect, useState } from "react"
+import axios from 'axios';
+
+const service = axios.create({
+  timeout: 60 * 2 * 1000,
+  headers: {
+    'Accept': 'application/json'
+  }
+})
+
 import { useUser } from 'utils/auth/useUser'
-import firebase from 'firebase/app'
 
 export const useSyncUser = () => {
 
-  const { user } = useUser()
+  const { user, token } = useUser()
+  const [loading, setLoading] = useState(true)
   const [userData, setUserData] = useState()
+  const [error, setError] = useState()
 
   useEffect(() => {
-    if (!user) {
+    if (!token) {
       return
     }
 
-    return fetch('/api/syncUser', {
-      method: 'GET',
-      headers: new Headers({ 'Content-Type': 'application/json', token: user.token }),
-      credentials: 'same-origin',
-    }).then((res) => res.json()).then(data => {
-      setUserData(data)
-    })
+    service.defaults.headers.common['token'] = token
 
-  }, [user])
-  return userData
+    if (userData) {
+      return
+    }
+
+    const syncFn = async () => {
+      return service.get('/api/syncUser').then(data => {
+        setUserData(data)
+        setLoading(false)
+      }).catch(e => {
+        setLoading(false)
+        setError(e.message || 'There was error while syncing user.')
+      })
+    }
+    syncFn()
+
+  }, [token])
+
+  return { loading, userData, error }
 }
 
-
-const useFetch = (url, opts = { method: 'GET', headers: {} }) => {
+const useFetch = (url, headers = {}) => {
   return async () => {
-    const user = firebase.auth().currentUser;
-    const token = await user.getIdToken()
-    return fetch(url, {
-      method: opts.method,
-      headers: new Headers({ 'Content-Type': 'application/json', token, ...opts.headers })
-    }).then((res) => res.json())
+    return service.get(url, {
+      headers
+    })
   }
 }
 

@@ -4,15 +4,14 @@ import firebase from 'firebase/app'
 import 'firebase/auth'
 import initFirebase from 'utils/auth/initFirebase'
 
-import { mapUserData } from './mapUserData'
-
-import type { UserType } from './mapUserData'
+import type Firebase from 'firebase'
 
 initFirebase()
 
 const useUser = () => {
   const [isLoading, setIsLoading] = useState(true)
-  const [user, setUser] = useState<UserType | undefined>()
+  const [user, setUser] = useState<Firebase.User>()
+  const [token, setToken] = useState<String>()
   const router = useRouter()
 
   const logout = async () => {
@@ -32,11 +31,12 @@ const useUser = () => {
     // Firebase updates the id token every hour, this
     // makes sure the react state and the cookie are
     // both kept up to date
-    const cancelAuthListener = firebase.auth().onIdTokenChanged((user) => {
+    const cancelAuthListener = firebase.auth().onIdTokenChanged(async (user) => {
+      const cToken = await user?.getIdToken()
+      setToken(cToken)
       setIsLoading(false)
       if (user) {
-        const userData = mapUserData(user)
-        setUser(userData)
+        setUser(user)
       } else {
         setUser(undefined)
         firebase.auth().signInAnonymously()
@@ -49,7 +49,7 @@ const useUser = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  return { user, logout, isLoading }
+  return { user, token, logout, isLoading }
 }
 
 export { useUser }

@@ -4,12 +4,14 @@ import useFetch from 'utils/auth/useFetch'
 
 const Example = (props) => {
   const fetcher = useFetch('/api/getFood')
-  fetcher()
+  useEffect(() => {
+    fetcher()
+  }, [])
   return (
     <div>
       <p>
         This page is static because it does not fetch any data or include the
-        authed user info.
+        authed user info..
       </p>
       <Link href={'/'}>
         <a>Home</a>

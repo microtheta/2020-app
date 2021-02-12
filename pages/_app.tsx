@@ -8,10 +8,14 @@ import type { AppProps /*, AppContext */ } from 'next/app'
 export default function App({ Component, pageProps }: AppProps) {
   const apolloClient = useApollo(pageProps.initialApolloState)
 
-  const syncedUser = useSyncUser()
+  const { loading, error } = useSyncUser()
 
-  if (!syncedUser) {
+  if (loading) {
     return <Loader />
+  }
+
+  if (error) {
+    <div>Error while syncing user: {error}</div>
   }
 
   return (
