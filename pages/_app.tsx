@@ -1,7 +1,7 @@
 import { ApolloProvider } from '@apollo/client'
 import { useApollo } from 'apollo/client'
 import { useSyncUser } from 'utils/auth/useFetch'
-import Loader from 'components/Loader'
+import Loader from 'components/ui/Loader'
 import NotificationContainer from 'components/notify/notify';
 import type { AppProps /*, AppContext */ } from 'next/app'
 

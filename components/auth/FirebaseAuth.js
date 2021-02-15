@@ -3,8 +3,7 @@ import { useEffect, useState } from 'react'
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth'
 import firebase from 'firebase/app'
 import 'firebase/auth'
-import initFirebase from '../utils/auth/initFirebase'
-import { mapUserData } from '../utils/auth/mapUserData'
+import initFirebase from '../../utils/auth/initFirebase'
 
 // Init the Firebase app.
 initFirebase()
@@ -49,8 +48,7 @@ const firebaseAuthConfig = {
   credentialHelper: 'none',
   callbacks: {
     signInSuccessWithAuthResult: async ({ user }, redirectUrl) => {
-      const userData = mapUserData(user)
-      setUserCookie(userData)
+      //callback after successfull sign in
     },
   },
 }

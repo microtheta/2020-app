@@ -2,7 +2,7 @@ import useSWR from 'swr'
 import Link from 'next/link'
 import { useUser } from 'utils/auth/useUser'
 
-import Loader from 'components/Loader'
+import Loader from 'components/ui/Loader'
 
 
 const fetcher = (url, token) =>
