@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import axios from 'axios';
 
-const service = axios.create({
+export const service = axios.create({
   timeout: 60 * 2 * 1000,
   headers: {
     'Accept': 'application/json'

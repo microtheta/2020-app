@@ -23,7 +23,9 @@ const ViewerQuery = gql`
 const Index = () => {
   //const { data: { viewer } } = useQuery(ViewerQuery)
 
-  const { loading, error, data }= useQuery(ViewerQuery)
+  const { loading, error, data }= useQuery(ViewerQuery, {
+    fetchPolicy: "network-only"
+  })
   const viewer = data?.viewer;
   useEffect(() => {
     notify('Hello From GraphQL page!')

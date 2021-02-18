@@ -1,5 +1,6 @@
 import { useMemo } from 'react'
-import { ApolloClient, InMemoryCache } from '@apollo/client'
+import { ApolloClient, HttpLink, ApolloLink, InMemoryCache, concat } from '@apollo/client'
+import { service } from 'utils/auth/useFetch'
 
 let apolloClient
 
@@ -17,10 +18,24 @@ function createIsomorphLink() {
     }
 }
 
+const authMiddleware =
+    new ApolloLink((operation, forward) => {
+        const token = service.defaults.headers.common['token'];
+        // add the authorization to the headers
+        operation.setContext({
+            headers: {
+                token,
+            }
+        });
+
+        return forward(operation);
+    })
+
+
 function createApolloClient() {
     return new ApolloClient({
         ssrMode: typeof window === 'undefined',
-        link: createIsomorphLink(),
+        link: concat(authMiddleware, createIsomorphLink()),
         cache: new InMemoryCache(),
     })
 }
