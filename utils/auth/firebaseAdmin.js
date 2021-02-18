@@ -1,4 +1,5 @@
 import * as admin from 'firebase-admin'
+import { db } from 'utils/db'
 
 export const verifyIdToken = async (token, getUserRecord) => {
   const firebasePrivateKey = process.env.FIREBASE_PRIVATE_KEY
@@ -24,10 +25,16 @@ export const verifyIdToken = async (token, getUserRecord) => {
         return admin
           .auth()
           .getUser(uid)
-          .then((userRecord) => {
+          .then(async (userRecord) => {
             // See the UserRecord reference doc for the contents of userRecord.
             // console.log(`Successfully fetched user data: ${JSON.stringify(userRecord.toJSON())}`);
-            return userRecord
+            const user = await db.users.findUnique({
+              where: {
+                fid: uid
+              }
+            })
+            console.log({ ...userRecord, ...user })
+            return { ...userRecord, ...user }
           })
           .catch((error) => {
             console.log('Error fetching user data:', error);
