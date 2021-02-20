@@ -5,7 +5,7 @@ import { useUser } from 'utils/auth/useUser'
 import Loader from 'components/ui/Loader'
 
 
-const fetcher = (url, token) =>
+const fetcher = (url: string, token: string) =>
   fetch(url, {
     method: 'GET',
     headers: new Headers({ 'Content-Type': 'application/json', token }),
@@ -13,9 +13,9 @@ const fetcher = (url, token) =>
   }).then((res) => res.json())
 
 const Index = () => {
-  const { isLoading, user, logout } = useUser()
+  const { isLoading, user, token, logout } = useUser()
   const { data, error } = useSWR(
-    user ? ['/api/getFood', user.token] : null,
+    user ? ['/api/getFood', token] : null,
     fetcher
   )
   if (isLoading) {

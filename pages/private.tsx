@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { ProtectRoute } from 'utils/auth/protectRoute'
 
-const Private = (props) => {
+const Private = () => {
   return (
     <div>
       <p>

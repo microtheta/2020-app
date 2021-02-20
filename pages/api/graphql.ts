@@ -1,8 +1,8 @@
 import { ApolloServer, AuthenticationError, } from 'apollo-server-micro'
 import { schema } from 'apollo/schema'
-import { db } from 'utils/db'
 import packageConfig from 'package.json'
-import { verifyIdToken } from '../../utils/auth/firebaseAdmin'
+import { verifyIdToken } from 'utils/auth/firebaseAdmin.server'
+import { db } from 'utils/db.server'
 
 const apolloServer = new ApolloServer({
   schema,

@@ -1,7 +1,7 @@
 import gql from 'graphql-tag'
 import Link from 'next/link'
 import { useQuery } from '@apollo/client'
-import { initializeApollo } from '../apollo/client'
+//import { initializeApollo } from '../apollo/client'
 
 import { notify } from 'components/notify/notify'
 import { useEffect } from 'react'
@@ -31,9 +31,15 @@ const Index = () => {
     notify('Hello From GraphQL page!')
   },[])
   
+  
   if(loading) {
     return <div>Loading...</div>
   }
+
+  if(error) {
+    return <div>{error}</div>
+  }
+
   return (
     <div>
       You're signed in as {viewer.name} and you're {viewer.status} from {viewer.address.city} goto{' '}

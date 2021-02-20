@@ -11,8 +11,9 @@ const config = {
 
 const renewToken = () => {
   console.log('Renew Now!')
-  if (firebase.auth().currentUser) {
-    firebase.auth().currentUser.getIdToken(/* forceRefresh */ true)
+  let currentUser = firebase.auth().currentUser
+  if (currentUser) {
+    currentUser.getIdToken(/* forceRefresh */ true)
   }
 }
 

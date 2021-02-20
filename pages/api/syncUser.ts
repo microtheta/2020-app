@@ -1,26 +1,26 @@
-import { db } from 'utils/db'
+import { db } from 'utils/db.server'
 
-import { verifyIdToken } from '../../utils/auth/firebaseAdmin'
+import { verifyIdToken } from 'utils/auth/firebaseAdmin.server'
 
 import type { NextApiRequest, NextApiResponse } from 'next'
 
 
 const sync = async (req: NextApiRequest, res: NextApiResponse<any>) => {
-  const token = req.headers.token
+  const token = String(req.headers.token)
 
   if (!token) {
     return res.status(401).send('You are unauthorised')
   }
 
   try {
-    const userRecord = await verifyIdToken(token, true)
+    const userRecord = await verifyIdToken(token)
 
-    let user = await db.users.findFirst({
+    let user = await db.user.findFirst({
       where: { fid: userRecord.uid }
     })
 
     if (!user) {
-      user = await db.users.create({
+      user = await db.user.create({
         data: {
           fid: userRecord.uid,
           name: userRecord.displayName

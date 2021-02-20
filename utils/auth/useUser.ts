@@ -4,14 +4,14 @@ import firebase from 'firebase/app'
 import 'firebase/auth'
 import initFirebase from 'utils/auth/initFirebase'
 
-import type Firebase from 'firebase'
+//import type firebase from 'firebase'
 
 initFirebase()
 
 const useUser = () => {
   const [isLoading, setIsLoading] = useState(true)
-  const [user, setUser] = useState<Firebase.User>()
-  const [token, setToken] = useState<String>()
+  const [user, setUser] = useState<firebase.User>()
+  const [token, setToken] = useState<string>()
   const router = useRouter()
 
   const logout = async () => {
@@ -20,7 +20,7 @@ const useUser = () => {
       .signOut()
       .then(() => {
         // Sign-out successful.
-        router.push('/auth')
+        router.push('/login')
       })
       .catch((e) => {
         console.error(e)

@@ -1,8 +1,20 @@
 import * as admin from 'firebase-admin'
-import { db } from 'utils/db'
+import { db } from 'utils/db.server'
 
-export const verifyIdToken = async (token, getUserRecord) => {
-  const firebasePrivateKey = process.env.FIREBASE_PRIVATE_KEY
+interface VerifiedUserType {
+  id?: number;
+  fid?: string | null;
+  name?: string | null;
+  uid: string;
+  email?: string | undefined;
+  emailVerified?: boolean;
+  displayName?: string | undefined;
+  phoneNumber?: string | undefined;
+  isAnonymous?: boolean;
+}
+
+export const verifyIdToken = async (token: string, getUserRecord: boolean = false) => {
+  const firebasePrivateKey = process.env.FIREBASE_PRIVATE_KEY || ''
 
   if (!admin.apps.length) {
     admin.initializeApp({
@@ -19,7 +31,7 @@ export const verifyIdToken = async (token, getUserRecord) => {
   return admin
     .auth()
     .verifyIdToken(token)
-    .then((decodedToken) => {
+    .then((decodedToken): Promise<VerifiedUserType> | VerifiedUserType => {
       const uid = decodedToken.uid;
       if (getUserRecord) {
         return admin
@@ -28,19 +40,20 @@ export const verifyIdToken = async (token, getUserRecord) => {
           .then(async (userRecord) => {
             // See the UserRecord reference doc for the contents of userRecord.
             // console.log(`Successfully fetched user data: ${JSON.stringify(userRecord.toJSON())}`);
-            const user = await db.users.findUnique({
+            const user = await db.user.findUnique({
               where: {
                 fid: uid
               }
             })
-            console.log({ ...userRecord, ...user })
-            return { ...userRecord, ...user }
+            const mergedUser = { ...userRecord, ...user }
+            return mergedUser
           })
           .catch((error) => {
             console.log('Error fetching user data:', error);
+            return { uid: '' }
           });
       } else {
-        return uid
+        return { uid }
       }
     })
     .catch((error) => {

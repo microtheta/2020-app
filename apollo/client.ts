@@ -1,8 +1,8 @@
 import { useMemo } from 'react'
-import { ApolloClient, HttpLink, ApolloLink, InMemoryCache, concat } from '@apollo/client'
+import { ApolloClient, ApolloLink, InMemoryCache, concat } from '@apollo/client'
 import { service } from 'utils/auth/useFetch'
 
-let apolloClient
+let apolloClient: any
 
 function createIsomorphLink() {
     if (typeof window === 'undefined') {
@@ -56,7 +56,7 @@ export function initializeApollo(initialState = null) {
     return _apolloClient
 }
 
-export function useApollo(initialState) {
+export function useApollo(initialState: any) {
     const store = useMemo(() => initializeApollo(initialState), [initialState])
     return store
 }

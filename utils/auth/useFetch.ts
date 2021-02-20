@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
 import axios from 'axios';
+import { User } from '@prisma/client'
 
 export const service = axios.create({
   timeout: 60 * 2 * 1000,
@@ -12,9 +13,9 @@ import { useUser } from 'utils/auth/useUser'
 
 export const useSyncUser = () => {
 
-  const { user, token } = useUser()
+  const { token } = useUser()
   const [loading, setLoading] = useState(true)
-  const [userData, setUserData] = useState()
+  const [userData, setUserData] = useState<User>()
   const [error, setError] = useState()
 
   useEffect(() => {
@@ -29,8 +30,9 @@ export const useSyncUser = () => {
     }
 
     const syncFn = async () => {
-      return service.get('/api/syncUser').then(data => {
-        setUserData(data)
+      return service.get('/api/syncUser').then((data) => {
+        const userData: User = data as any;
+        setUserData(userData)
         setLoading(false)
       }).catch(e => {
         setLoading(false)
@@ -44,7 +46,7 @@ export const useSyncUser = () => {
   return { loading, userData, error }
 }
 
-const useFetch = (url, headers = {}) => {
+const useFetch = (url: string, headers = {}) => {
   return async () => {
     return service.get(url, {
       headers

@@ -2,7 +2,7 @@ import Link from 'next/link'
 import { useEffect } from 'react'
 import useFetch from 'utils/auth/useFetch'
 
-const Example = (props) => {
+const Example = () => {
   const fetcher = useFetch('/api/getFood')
   useEffect(() => {
     fetcher()
