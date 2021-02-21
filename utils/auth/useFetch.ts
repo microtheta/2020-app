@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import axios from 'axios';
 import { User } from '@prisma/client'
+import { log } from 'utils/logger'
 
 export const service = axios.create({
   timeout: 60 * 2 * 1000,
@@ -30,13 +31,16 @@ export const useSyncUser = () => {
     }
 
     const syncFn = async () => {
+      log('Started User Sync')
       return service.get('/api/syncUser').then((data) => {
         const userData: User = data as any;
+        log(['User Synced', data])
         setUserData(userData)
         setLoading(false)
       }).catch(e => {
         setLoading(false)
         setError(e.message || 'There was error while syncing user.')
+        log(['Error in User Syncing ', e], 'error')
       })
     }
     syncFn()

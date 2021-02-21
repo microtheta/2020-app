@@ -4,10 +4,6 @@ import firebase from 'firebase/app'
 import 'firebase/auth'
 import initFirebase from 'utils/auth/initFirebase'
 
-//import type firebase from 'firebase'
-
-initFirebase()
-
 const useUser = () => {
   const [isLoading, setIsLoading] = useState(true)
   const [user, setUser] = useState<firebase.User>()
@@ -28,6 +24,7 @@ const useUser = () => {
   }
 
   useEffect(() => {
+    initFirebase()
     // Firebase updates the id token every hour, this
     // makes sure the react state and the cookie are
     // both kept up to date

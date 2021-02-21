@@ -5,8 +5,7 @@ import firebase from 'firebase/app'
 import 'firebase/auth'
 import initFirebase from 'utils/auth/initFirebase'
 
-// Init the Firebase app.
-initFirebase()
+
 
 const firebaseAuthConfig = {
   signInFlow: 'popup',
@@ -59,6 +58,8 @@ const FirebaseAuth = () => {
   const [renderAuth, setRenderAuth] = useState(false)
   useEffect(() => {
     if (typeof window !== 'undefined') {
+      // Init the Firebase app.
+      initFirebase()
       setRenderAuth(true)
     }
   }, [])

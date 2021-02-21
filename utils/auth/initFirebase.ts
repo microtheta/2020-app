@@ -1,5 +1,6 @@
 import firebase from 'firebase/app'
 import 'firebase/auth'
+import { log } from 'utils/logger'
 
 const config = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_PUBLIC_API_KEY,
@@ -10,7 +11,7 @@ const config = {
 
 
 const renewToken = () => {
-  console.log('Renew Now!')
+  log('Renewing token now!')
   let currentUser = firebase.auth().currentUser
   if (currentUser) {
     currentUser.getIdToken(/* forceRefresh */ true)
@@ -20,6 +21,7 @@ const renewToken = () => {
 
 export default function initFirebase() {
   if (!firebase.apps.length) {
+    log('initializing firebase')
     firebase.initializeApp(config)
     setInterval(renewToken, 1000 * 60 * 59)
   }
