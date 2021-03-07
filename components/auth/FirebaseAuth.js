@@ -5,8 +5,6 @@ import firebase from 'firebase/app'
 import 'firebase/auth'
 import initFirebase from 'utils/auth/initFirebase'
 
-
-
 const firebaseAuthConfig = {
   signInFlow: 'popup',
   // Auth providers
